@@ -26,6 +26,19 @@ def get_time(seconds: int) -> str:
     real_time += ":".join(time_list)
     return real_time
 
+def get_file_size(file_size):
+    size = file_size/1024
+
+    if size <= 1024:
+        return str(round(size,3)) + " kb"
+    elif size > 1024:
+        size = size/1024
+        if size <= 1024:
+            return str(round(size,3)) + " mb"
+        elif size > 1024:
+            size = size/1024
+            return str(round(size,3)) + " gb"
+
 blue_print = """
 **Anime Twilight!**
 
@@ -47,7 +60,7 @@ async def setanime(RiZoeL: Client, message: Message):
          except ChatAdminRequired:
             await message.reply("I'm not admin in {}!").format(UPLOAD_CHANNEL)
             return
-         anime_caption = blue_print.format(anime_name, get_time(anime.video.duration), anime.video.file_size)
+         anime_caption = blue_print.format(anime_name, get_time(anime.video.duration), get_file_size(anime.video.file_size))
          buttons = [[(InlineKeyboardButton("Watch Now 🎬", url=f"https://t.me/{BOT_USERNAME}?start=anime-{msg_id}"))]]
          x = await RiZoeL.send_photo(
                       CHANNEL,
