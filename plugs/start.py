@@ -55,7 +55,7 @@ async def start(RiZoeL: Client, message: Message):
    if len(text)>7:
       wait_message = await message.reply("Please wait...")
       anime_option = text.split(" ", 1)[1]
-      argument = anime_option.split("-")
+      argument = anime_option.split(":")
       try:
          anime = await RiZoeL.get_messages(UPLOAD_CHANNEL, int(argument[1]))
       except Exception as er:
@@ -66,8 +66,10 @@ async def start(RiZoeL: Client, message: Message):
             await wait_message.delete()
             await message.reply_text("Something went wrong..!")
          return
-      anime_text = anime.text
-      anime_caption = anime_text.format(anime.video.duration, anime.video.file_size)
+      if anime.text:
+         anime_caption = str(anime.text)
+      else:
+         anime_caption = "**Here is you anime!**"
       await RiZoeL.copy_message(chat.id, UPLOAD_CHANNEL, anime.id, caption=anime_caption, reply_markup=InlineKeyboardMarkup(CHANNEL_BUTTON))
 
    else:
