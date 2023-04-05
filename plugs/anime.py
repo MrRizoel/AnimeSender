@@ -29,7 +29,8 @@ async def setanime(RiZoeL: Client, message: Message):
          anime_caption = blue_print.format(anime_name, anime.video.duration, anime.video.file_size)
          buttons = [[(InlineKeyboardButton("Watch Now 🎬", url=f"https://t.me/{BOT_USERNAME}?start=anime={msg_id}"))]]
          x = await RiZoeL.send_photo(
-                      CHANNEL, 
+                      CHANNEL,
+                      replied.photo.file_id,
                       caption=anime_caption,
                       reply_markup=InlineKeyboardMarkup(buttons),
                       )
