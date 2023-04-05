@@ -4,7 +4,7 @@ from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram.errors import ChatAdminRequired, UserNotParticipant, ChatWriteForbidden
 
 from database import users
-from . import UPLOAD_CHANNEL, CHANNEL, BOT_USERNAME
+from . import UPLOAD_CHANNEL, CHANNEL, BOT_USERNAME, decode 
 
 START_MSG = """
 **Hue Hue {}** it Anime Twilight Bot
@@ -53,11 +53,18 @@ async def start(RiZoeL: Client, message: Message):
    text = message.text
 
    if len(text)>7:
-      wait_message = await message.reply("Please wait...")
-      anime_option = text.split(" ", 1)[1]
-      argument = anime_option.split("-")
       try:
-         anime = await RiZoeL.get_messages(UPLOAD_CHANNEL, int(argument[1]))
+          base64_string = text.split(" ", 1)[1]
+      except:
+          return
+      string = await decode(base64_string)
+      argument = string.split("-")
+      try:
+         try:
+            msg_id = int(argument[1]) / 1517994352
+         except:
+            return
+         anime = await RiZoeL.get_messages(UPLOAD_CHANNEL, msg_id)
       except Exception as er:
          print(str(er))
          try:
