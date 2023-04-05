@@ -7,7 +7,6 @@ from database import users
 from . import START_MSG, START_BUTTONS, UPLOAD_CHANNEL, CHANNEL, BOT_USERNAME
 
 
-
 @Client.on_message(filters.incoming & filters.private, group=-1)
 async def must_join_channels(RiZoeL: Client, msg: Message):   
     if not CHANNEL:
