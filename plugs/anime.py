@@ -75,7 +75,7 @@ async def setanime(RiZoeL: Client, message: Message):
          data = users.get_all_users()
          for x in data:
             try:
-               await RiZoeL.send_message(x.user_id, f"**New Anime uploaded! [Click here.](https://t.me/{CHANNEL}/{x.id})**", disable_web_page_preview=True)
+               await RiZoeL.send_message(x.user_id, text=f"**New Anime uploaded! [Click here.](https://t.me/{CHANNEL}/{x.id})**", disable_web_page_preview=True)
                await asyncio.sleep(0.8)
             except Exception as a:
                print(a)
