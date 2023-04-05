@@ -59,6 +59,7 @@ async def start(RiZoeL: Client, message: Message):
           return
       string = await decode(base64_string)
       argument = string.split("-")
+      wait_message = await message.reply("please wait!....")
       try:
          try:
             msg_id = int(int(argument[1]) / 1517994352)
