@@ -58,7 +58,8 @@ async def start(RiZoeL: Client, message: Message):
       argument = anime_option.split("-")
       try:
          anime = await RiZoeL.get_messages(UPLOAD_CHANNEL, int(argument[1]))
-      except Exception:
+      except Exception as er:
+         print(str(er))
          try:
             await wait_message.edit_text("Something went wrong..!")
          except Exception:
