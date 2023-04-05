@@ -67,7 +67,7 @@ async def start(RiZoeL: Client, message: Message):
          return
       anime_text = anime.text
       anime_caption = anime_text.format(anime.video.duration, anime.video.file_size)
-      await RiZoeL.send_video(chat.id, UPLOAD_CHANNEL, anime.id, caption=anime_caption, reply_markup=InlineKeyboardMarkup(CHANNEL_BUTTON))
+      await RiZoeL.copy_message(chat.id, UPLOAD_CHANNEL, anime.id, caption=anime_caption, reply_markup=InlineKeyboardMarkup(CHANNEL_BUTTON))
 
    else:
        await RiZoeL.send_photo(chat.id, START_PIC, caption=START_MSG.format(user.mention), reply_markup=InlineKeyboardMarkup(CHANNEL_BUTTON))
