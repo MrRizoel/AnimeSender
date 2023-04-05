@@ -71,7 +71,7 @@ async def start(RiZoeL: Client, message: Message):
       except Exception:
          anime_caption = "**Here is you anime!**"
       await RiZoeL.copy_message(chat.id, UPLOAD_CHANNEL, anime.id, caption=anime_caption, reply_markup=InlineKeyboardMarkup(CHANNEL_BUTTON))
-
+      await wait_message.delete()
    else:
        await RiZoeL.send_photo(chat.id, START_PIC, caption=START_MSG.format(user.mention), reply_markup=InlineKeyboardMarkup(CHANNEL_BUTTON))
 
