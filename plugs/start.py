@@ -66,9 +66,9 @@ async def start(RiZoeL: Client, message: Message):
             await wait_message.delete()
             await message.reply_text("Something went wrong..!")
          return
-      if anime.text:
-         anime_caption = str(anime.text)
-      else:
+      try:
+         anime_caption = "" if not anime.caption else anime.caption.html
+      except Exception:
          anime_caption = "**Here is you anime!**"
       await RiZoeL.copy_message(chat.id, UPLOAD_CHANNEL, anime.id, caption=anime_caption, reply_markup=InlineKeyboardMarkup(CHANNEL_BUTTON))
 
