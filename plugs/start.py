@@ -27,7 +27,7 @@ async def must_join_channels(RiZoeL: Client, msg: Message):
         try:
             await RiZoeL.get_chat_member(CHANNEL, msg.from_user.id)
         except UserNotParticipant:
-            if MUST_JOIN.isalpha():
+            if CHANNEL.isalpha():
                 link = "https://t.me/" + CHANNEL
             else:
                 chat_info = await RiZoeL.get_chat(CHANNEL)
