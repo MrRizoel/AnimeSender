@@ -70,6 +70,6 @@ async def start(RiZoeL: Client, message: Message):
       await RiZoeL.send_video(chat.id, UPLOAD_CHANNEL, anime.id, caption=anime_caption, reply_markup=InlineKeyboardMarkup(CHANNEL_BUTTON))
 
    else:
-       await RiZoeL.send_photo(START_PIC, caption=START_MSG.format(user.mention), reply_markup=InlineKeyboardMarkup(CHANNEL_BUTTON))
+       await RiZoeL.send_photo(chatm.id, START_PIC, caption=START_MSG.format(user.mention), reply_markup=InlineKeyboardMarkup(CHANNEL_BUTTON))
 
    print(f"Started by {user.first_name}!")
