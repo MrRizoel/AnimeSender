@@ -27,7 +27,7 @@ async def setanime(RiZoeL: Client, message: Message):
             await message.reply("I'm not admin in {}!").format(UPLOAD_CHANNEL)
             return
          anime_caption = blue_print.format(anime_name, anime.video.duration, anime.video.file_size)
-         buttons = [[(InlineKeyboardButton("Watch Now 🎬", url=f"https://t.me/{BOT_USERNAME}?start=anime={msg_id}"))]]
+         buttons = [[(InlineKeyboardButton("Watch Now 🎬", url=f"https://t.me/{BOT_USERNAME}?start=anime-{msg_id}"))]]
          x = await RiZoeL.send_photo(
                       CHANNEL,
                       replied.photo.file_id,
