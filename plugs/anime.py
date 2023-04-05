@@ -1,9 +1,30 @@
 
+import time, datetime 
 from pyrogram import Client, filters
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram.errors import ChatAdminRequired
 from . import DEVS, UPLOAD_CHANNEL, CHANNEL, BOT_USERNAME
 
+def get_time(seconds: int) -> str:
+    count = 0
+    real_time = ""
+    time_list = []
+    time_suffix_list = ["s", "m", "h", "days"]
+    while count < 4:
+        count += 1
+        remainder, result = divmod(seconds, 60) if count < 3 else divmod(seconds, 24)
+        if seconds == 0 and remainder == 0:
+            break
+        time_list.append(int(result))
+        seconds = int(remainder)
+    hmm = len(time_list)
+    for x in range(hmm):
+        time_list[x] = str(time_list[x]) + time_suffix_list[x]
+    if len(time_list) == 4:
+        real_time += time_list.pop() + ", "
+    time_list.reverse()
+    real_time += ":".join(time_list)
+    return real_time
 
 blue_print = """
 **Anime Twilight!**
@@ -26,8 +47,8 @@ async def setanime(RiZoeL: Client, message: Message):
          except ChatAdminRequired:
             await message.reply("I'm not admin in {}!").format(UPLOAD_CHANNEL)
             return
-         anime_caption = blue_print.format(anime_name, anime.video.duration, anime.video.file_size)
-         buttons = [[(InlineKeyboardButton("Watch Now 🎬", url=f"https://t.me/{BOT_USERNAME}?start=anime-{msg_id}"))]]
+         anime_caption = blue_print.format(anime_name, get_time(anime.video.duration), anime.video.file_size)
+         buttons = [[(InlineKeyboardButton("Watch Now 🎬", url=f"https://t.me/{BOT_USERNAME}?start=anime:{msg_id}"))]]
          x = await RiZoeL.send_photo(
                       CHANNEL,
                       replied.photo.file_id,
