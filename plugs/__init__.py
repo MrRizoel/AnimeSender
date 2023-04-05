@@ -15,5 +15,5 @@ async def decode(base64_string):
 
 DEVS = [1517994352, 6185365707]
 BOT_USERNAME = "AnimeTwilight_Bot"
-CHANNEL = "TESTING_CHATT"
+CHANNEL = "Anime_Twilight"
 UPLOAD_CHANNEL = -1001948492315
