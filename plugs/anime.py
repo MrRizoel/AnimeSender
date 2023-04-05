@@ -4,6 +4,7 @@ from pyrogram import Client, filters
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram.errors import ChatAdminRequired
 from . import DEVS, UPLOAD_CHANNEL, CHANNEL, BOT_USERNAME, encode
+from database import users 
 
 def get_time(seconds: int) -> str:
     count = 0
@@ -71,6 +72,13 @@ async def setanime(RiZoeL: Client, message: Message):
                       reply_markup=InlineKeyboardMarkup(buttons),
                       )
          await message.reply(f"Your Anime uploaded! [Click here](https://t.me/{CHANNEL}/{x.id})", disable_web_page_preview=True)
+         data = users.get_all_users()
+         for x in data:
+            try:
+               await RiZoeL.send_message(x.user_id, f"**New Anime uploaded! [Click here.](https://t.me/{CHANNEL}/{x.id})**", disable_web_page_preview=True)
+               await asyncio.sleep(0.8)
+            except Exception as a:
+               print(a)
       else:
          await message.reply("Wrong Usage!")
    else:
