@@ -55,7 +55,7 @@ async def start(RiZoeL: Client, message: Message):
    if len(text)>7:
       wait_message = await message.reply("Please wait...")
       anime_option = text.split(" ", 1)[1]
-      argument = anime_option.split(":")
+      argument = anime_option.split("-")
       try:
          anime = await RiZoeL.get_messages(UPLOAD_CHANNEL, int(argument[1]))
       except Exception as er:
