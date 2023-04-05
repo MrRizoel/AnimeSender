@@ -61,7 +61,7 @@ async def start(RiZoeL: Client, message: Message):
       argument = string.split("-")
       try:
          try:
-            msg_id = int(argument[1]) / 1517994352
+            msg_id = [int(argument[1]) / 1517994352]
          except:
             return
          anime = await RiZoeL.get_messages(UPLOAD_CHANNEL, msg_id)
