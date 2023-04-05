@@ -4,7 +4,19 @@ from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram.errors import ChatAdminRequired, UserNotParticipant, ChatWriteForbidden
 
 from database import users
-from . import START_MSG, START_BUTTONS, UPLOAD_CHANNEL, CHANNEL, BOT_USERNAME
+from . import UPLOAD_CHANNEL, CHANNEL, BOT_USERNAME
+
+START_MSG = """
+**Hue Hue {}** it Anime Twilight Bot
+
+  • I can provide to latest animes 😉 simply join my channel and start me using upload/watch now buttons!
+
+**Powered by @TeamRed7|| click below button!**
+"""
+
+START_PIC = "https://telegra.ph//file/803de524cec0035d7f64f.jpg"
+
+CHANNEL_BUTTON = [[(InlineKeyboardButton("Anime Twilight ✨", url=f"https://t.me/{CHANNEL}")]]
 
 
 @Client.on_message(filters.incoming & filters.private, group=-1)
@@ -24,9 +36,7 @@ async def must_join_channels(RiZoeL: Client, msg: Message):
                 await msg.reply(
                     f"You must join [this channel]({link}) to use me. After joining try again !",
                     disable_web_page_preview=True,
-                    reply_markup=InlineKeyboardMarkup([
-                        [InlineKeyboardButton("• Join Channel •", url=link)]
-                    ])
+                    reply_markup=InlineKeyboardMarkup(CHANNEL_BUTTON),
                 )
                 await msg.stop_propagation()
             except ChatWriteForbidden:
@@ -34,7 +44,7 @@ async def must_join_channels(RiZoeL: Client, msg: Message):
     except ChatAdminRequired:
         print(f"I'm not admin in the CHANNEL chat : {CHANNEL} !")
 
-        
+ 
 @Client.on_message(filters.private & filters.command("start"))
 async def start(RiZoeL: Client, message: Message):
    chat = message.chat
@@ -57,10 +67,9 @@ async def start(RiZoeL: Client, message: Message):
          return
       anime_text = anime.text
       anime_caption = anime_text.format(anime.video.duration, anime.video.file_size)
-      anime_buttons = [[(InlineKeyboardButton("Join Channel", url=f"https://t.me/{CHANNEL}")]]
-      await RiZoeL.send_video(chat.id, UPLOAD_CHANNEL, anime.id, caption=anime_caption, reply_markup=InlineKeyboardMarkup(anime_buttons))
+      await RiZoeL.send_video(chat.id, UPLOAD_CHANNEL, anime.id, caption=anime_caption, reply_markup=InlineKeyboardMarkup(CHANNEL_BUTTON))
 
    else:
-       await RiZoeL.send_message(START_MSG.format(user.mention), reply_markup=InlineKeyboardMarkup(START_BUTTONS))
+       await RiZoeL.send_photo(START_PIC, caption=START_MSG.format(user.mention), reply_markup=InlineKeyboardMarkup(CHANNEL_BUTTON))
 
    print(f"Started by {user.first_name}!")
