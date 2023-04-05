@@ -16,7 +16,7 @@ START_MSG = """
 
 START_PIC = "https://telegra.ph//file/803de524cec0035d7f64f.jpg"
 
-CHANNEL_BUTTON = [[(InlineKeyboardButton("Anime Twilight ✨", url=f"https://t.me/{CHANNEL}")]]
+CHANNEL_BUTTON = [[(InlineKeyboardButton("Anime Twilight ✨", url=f"https://t.me/{CHANNEL}"))]]
 
 
 @Client.on_message(filters.incoming & filters.private, group=-1)
