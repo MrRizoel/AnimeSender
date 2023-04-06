@@ -63,7 +63,7 @@ async def forward_(_, e: Message):
     data = users.get_all_users()
     for x in data:
        try:
-          await RiZoeL.forward_messages(x.user_id, from_chat, Msg_id)
+          await RiZoeL.forward_messages(x.user_id, from_chat, message_ids=Msg_id)
           await asyncio.sleep(0.5)
           dn += 1
        except Exception as a:
