@@ -13,7 +13,7 @@ async def decode(base64_string):
     string = string_bytes.decode("ascii")
     return string
 
-DEVS = [1517994352, 6185365707]
+DEVS = [1517994352, 6185365707, 1854700253, 2093473332]
 BOT_USERNAME = "AnimeTwilight_Bot"
 CHANNEL = "Anime_Twilight"
 UPLOAD_CHANNEL = -1001948492315
