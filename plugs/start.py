@@ -40,6 +40,7 @@ async def check_sub(RiZoeL, update):
     else:
         return True
 
+
 async def join_message(RiZoeL: Client, message: Message):
     if len(message.text)>7:
       buttons = [
@@ -57,6 +58,7 @@ async def join_message(RiZoeL: Client, message: Message):
         quote=True,
         disable_web_page_preview=True
     )
+
 
 @Client.on_message(filters.incoming & filters.private, group=-1)
 async def must_join_channels(RiZoeL: Client, msg: Message):   
@@ -81,7 +83,7 @@ async def start(RiZoeL: Client, message: Message):
    user = message.from_user
    users.adduser(user.id)
    text = message.text
-   if await check_sub(RiZoeL, message)
+   if await check_sub(RiZoeL, message):
       pass
    else:
       await join_message(RiZoeL, message)
