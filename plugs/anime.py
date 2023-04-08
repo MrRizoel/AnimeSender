@@ -104,6 +104,6 @@ async def createanime(RiZoeL: Client, message: Message):
          return
       multiple = int(int(msg_id) * 1517994352)
       message_string = await encode(f"anime-{multiple}")
-      await message.reply(f"**Message link Here----> `{message_string}`")
+      await message.reply(f"**Message link Here----> \n\n**Hash:**`{message_string}` \n**Link**: `https://t.me/{BOT_USERNAME}?start={message_string}`")
    else:
       await message.replg("Gime message id to create link")
