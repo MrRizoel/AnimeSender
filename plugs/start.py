@@ -2,6 +2,7 @@
 from pyrogram import Client, filters
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram.errors import ChatAdminRequired, UserNotParticipant, ChatWriteForbidden
+from pyrogram.enums import ChatMemberStatus
 
 from database import users
 from . import UPLOAD_CHANNEL, CHANNEL, BOT_USERNAME, decode 
@@ -18,34 +19,30 @@ START_PIC = "https://telegra.ph//file/803de524cec0035d7f64f.jpg"
 
 CHANNEL_BUTTON = [[(InlineKeyboardButton("Anime Twilight ✨", url=f"https://t.me/{CHANNEL}"))]]
 
-
-@Client.on_message(filters.incoming & filters.private, group=-1)
-async def must_join_channels(RiZoeL: Client, msg: Message):   
+async def is_subscribed(RiZoeL, update):
     if not CHANNEL:
-        return
+        return True
+    user_id = update.from_user.id
+    if user_id in DEVS:
+        return True
     try:
-        try:
-            await RiZoeL.get_chat_member(CHANNEL, msg.from_user.id)
-        except UserNotParticipant:
-            if CHANNEL.isalpha():
-                link = "https://t.me/" + CHANNEL
-            else:
-                chat_info = await RiZoeL.get_chat(CHANNEL)
-                link = chat_info.invite_link
-            try:
-                await msg.reply(
-                    f"You must join [this channel]({link}) to use me. After joining try again !",
-                    disable_web_page_preview=True,
-                    reply_markup=InlineKeyboardMarkup(CHANNEL_BUTTON),
-                )
-                await msg.stop_propagation()
-            except ChatWriteForbidden:
-                pass
+        member = await RiZoeL.get_chat_member(chat_id = FORCE_SUB_CHANNEL, user_id = user_id)
+    except UserNotParticipant:
+        return False
     except ChatAdminRequired:
         print(f"I'm not admin in the CHANNEL chat : {CHANNEL} !")
+        return True
+    except ChatWriteForbidden:
+        return True
 
- 
-@Client.on_message(filters.private & filters.command("start"))
+    if not member.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.MEMBER]:
+        return False
+    else:
+        return True
+
+subscribed = filters.create(is_subscribed)
+
+@Client.on_message(filters.private & filters.command("start") & subscribed)
 async def start(RiZoeL: Client, message: Message):
    chat = message.chat
    user = message.from_user
@@ -85,3 +82,26 @@ async def start(RiZoeL: Client, message: Message):
        await RiZoeL.send_photo(chat.id, START_PIC, caption=START_MSG.format(user.mention), reply_markup=InlineKeyboardMarkup(CHANNEL_BUTTON))
 
    print(f"Started by {user.first_name}!")
+
+
+@Client.on_message(filters.command('start') & filters.private)
+async def not_joined(RiZoeL: Client, message: Message):
+    buttons = CHANNEL_BUTTON
+    try:
+        buttons.append(
+            [
+                InlineKeyboardButton(
+                    "- Try Again -",
+                    url = f"https://t.me/{BOT_USERNAME}?start={message.command[1]}"
+                )
+            ]
+        )
+    except IndexError:
+        pass
+
+    await message.reply(
+        f"You must join [this channel]({link}) to use me. After joining try again !",
+        reply_markup=InlineKeyboardMarkup(buttons),
+        quote=True,
+        disable_web_page_preview=True
+    )
