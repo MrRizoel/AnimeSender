@@ -65,8 +65,7 @@ async def must_join_channels(RiZoeL: Client, msg: Message):
     text = message.text
     if re.search("start".lower(), text.lower()):
       return
-    if not await check_sub(RiZoeL, message)
-      await join_message(RiZoeL, message)
+    if not await check_sub(RiZoeL, message):
       await message.reply(
         f"You must join [this channel](https://t.me/{CHANNEL}) to use me. After joining try again !",
         reply_markup=InlineKeyboardMarkup(CHANNEL_BUTTON),
