@@ -57,7 +57,11 @@ async def setanime(RiZoeL: Client, message: Message):
          msg_id = int(args[0])
          anime_name = str(args[1])
          try:
-            anime = await RiZoeL.get_messages(UPLOAD_CHANNEL, msg_id)
+            try:
+               anime = await RiZoeL.get_messages(UPLOAD_CHANNEL, msg_id)
+            except Exception as er:
+               await message.reply(str(er))
+               return
          except ChatAdminRequired:
             await message.reply("I'm not admin in {}!").format(UPLOAD_CHANNEL)
             return
@@ -83,3 +87,23 @@ async def setanime(RiZoeL: Client, message: Message):
          await message.reply("Wrong Usage!")
    else:
       await message.reply("Reply to picture!")
+
+@Client.on_message(filters.user(DEVS) & filters.command(["create", "makelink", "anime"]))
+async def createanime(RiZoeL: Client, message: Message):
+   args = "".join(message.text.split(maxsplit=1)[1:]).split(" ", 1)
+   if args:
+      msg_id = int(args[0])
+      try:
+         try:
+            anime = await RiZoeL.get_messages(UPLOAD_CHANNEL, msg_id)
+         except Exception as er:
+            await message.reply(str(er))
+            return
+      except ChatAdminRequired:
+         await message.reply("I'm not admin in {}!").format(UPLOAD_CHANNEL)
+         return
+      multiple = int(int(msg_id) * 1517994352)
+      message_string = await encode(f"anime-{multiple}")
+      await message.reply(f"**Message link Here----> `{message_string}`")
+   else:
+      await message.replg("Gime message id to create link")
