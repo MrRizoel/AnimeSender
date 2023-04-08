@@ -1,5 +1,5 @@
 
-import time, datetime 
+import time, datetime, asyncio
 from pyrogram import Client, filters
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram.errors import ChatAdminRequired
@@ -76,7 +76,7 @@ async def setanime(RiZoeL: Client, message: Message):
          for db in data:
             try:
                await RiZoeL.send_message(db.user_id, text=f"**New Anime uploaded! [Click here.](https://t.me/{CHANNEL}/{x.id})**", disable_web_page_preview=True)
-               await asyncio.sleep(0.8)
+               await asyncio.sleep(1)
             except Exception as a:
                print(a)
       else:
