@@ -100,7 +100,7 @@ async def not_joined(RiZoeL: Client, message: Message):
         pass
 
     await message.reply(
-        f"You must join [this channel]({link}) to use me. After joining try again !",
+        f"You must join [this channel](https://t.me/{CHANNEL}) to use me. After joining try again !",
         reply_markup=InlineKeyboardMarkup(buttons),
         quote=True,
         disable_web_page_preview=True
