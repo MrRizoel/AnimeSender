@@ -19,7 +19,7 @@ START_PIC = "https://telegra.ph//file/803de524cec0035d7f64f.jpg"
 
 CHANNEL_BUTTON = [[(InlineKeyboardButton("Anime Twilight ✨", url=f"https://t.me/{CHANNEL}"))]]
 
-async def is_subscribed(filter, RiZoeL, update):
+async def check_sub(RiZoeL, update):
     if not CHANNEL:
         return True
     user_id = update.from_user.id
@@ -40,14 +40,17 @@ async def is_subscribed(filter, RiZoeL, update):
     else:
         return True
 
-subscribed = filters.create(is_subscribed)
-
-@Client.on_message(filters.private & filters.command("start") & subscribed)
+@Client.on_message(filters.private & filters.command("start"))
 async def start(RiZoeL: Client, message: Message):
    chat = message.chat
    user = message.from_user
    users.adduser(user.id)
    text = message.text
+   if await check_sub(RiZoeL, message)
+      pass
+   else:
+      await join_message(RiZoeL, message)
+      return 
 
    if len(text)>7:
       try:
@@ -83,21 +86,16 @@ async def start(RiZoeL: Client, message: Message):
 
    print(f"Started by {user.first_name}!")
 
-
-@Client.on_message(filters.command('start') & filters.private)
-async def not_joined(RiZoeL: Client, message: Message):
-    buttons = CHANNEL_BUTTON
-    try:
-        buttons.append(
-            [
-                InlineKeyboardButton(
-                    "- Try Again -",
-                    url = f"https://t.me/{BOT_USERNAME}?start={message.command[1]}"
-                )
-            ]
-        )
-    except IndexError:
-        pass
+async def join_message(RiZoeL: Client, message: Message):
+    if len(message.text)>7:
+      buttons = [
+                [
+                 InlineKeyboardButton("Anime Twilight ✨", url=f"https://t.me/{CHANNEL}")
+                ], [
+                 InlineKeyboardButton("- Try Again -",url = f"https://t.me/{BOT_USERNAME}?start={message.command[1]}")
+                ], ]
+    else:
+      buttons = CHANNEL_BUTTON
 
     await message.reply(
         f"You must join [this channel](https://t.me/{CHANNEL}) to use me. After joining try again !",
