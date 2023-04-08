@@ -71,7 +71,7 @@ async def is_subscribed(RiZoeL, update):
         quote=True,
         disable_web_page_preview=True
       )
-       
+      await message.stop_propagation()
 
 
 @Client.on_message(filters.private & filters.command("start"))
