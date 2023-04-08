@@ -19,14 +19,14 @@ START_PIC = "https://telegra.ph//file/803de524cec0035d7f64f.jpg"
 
 CHANNEL_BUTTON = [[(InlineKeyboardButton("Anime Twilight ✨", url=f"https://t.me/{CHANNEL}"))]]
 
-async def is_subscribed(RiZoeL, update):
+async def is_subscribed(filter, RiZoeL, update):
     if not CHANNEL:
         return True
     user_id = update.from_user.id
     if user_id in DEVS:
         return True
     try:
-        member = await RiZoeL.get_chat_member(chat_id = FORCE_SUB_CHANNEL, user_id = user_id)
+        member = await RiZoeL.get_chat_member(CHANNEL, user_id=user_id)
     except UserNotParticipant:
         return False
     except ChatAdminRequired:
