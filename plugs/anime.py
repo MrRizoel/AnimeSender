@@ -59,6 +59,9 @@ async def setanime(RiZoeL: Client, message: Message):
          try:
             try:
                anime = await RiZoeL.get_messages(UPLOAD_CHANNEL, msg_id)
+               if not anime.message:
+                  await message.reply("Invalid message ID!")
+                  return
             except Exception as er:
                await message.reply(str(er))
                return
@@ -96,6 +99,9 @@ async def createanime(RiZoeL: Client, message: Message):
       try:
          try:
             anime = await RiZoeL.get_messages(UPLOAD_CHANNEL, msg_id)
+            if not anime.message:
+               await message.reply("Invalid message ID!")
+               return 
          except Exception as er:
             await message.reply(str(er))
             return
