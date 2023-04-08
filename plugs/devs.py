@@ -34,8 +34,8 @@ async def gcast_(_, e: Message):
     data = users.get_all_users()
     for x in data:
        try:
-          await RiZoeL.send_message(x.user_id, text=msg)
-          await asyncio.sleep(0.6)
+          await RiZoeL.send_message(chat_id=x.user_id, text=msg)
+          await asyncio.sleep(1)
           dn += 1
        except Exception as a:
           print(a)
