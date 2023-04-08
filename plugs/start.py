@@ -1,4 +1,4 @@
-
+import re
 from pyrogram import Client, filters
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram.errors import ChatAdminRequired, UserNotParticipant, ChatWriteForbidden
@@ -60,9 +60,11 @@ async def join_message(RiZoeL: Client, message: Message):
 
 @Client.on_message(filters.incoming & filters.private, group=-1)
 async def must_join_channels(RiZoeL: Client, msg: Message):   
-async def is_subscribed(RiZoeL, update):
     if not CHANNEL:
         return
+    text = message.text
+    if re.search("start".lower(), text.lower()):
+      return
     if not await check_sub(RiZoeL, message)
       await join_message(RiZoeL, message)
       await message.reply(
