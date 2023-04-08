@@ -61,7 +61,7 @@ async def join_message(RiZoeL: Client, message: Message):
 
 
 @Client.on_message(filters.incoming & filters.private, group=-1)
-async def must_join_channels(RiZoeL: Client, msg: Message):   
+async def must_join_channels(RiZoeL: Client, message: Message):   
     if not CHANNEL:
         return
     text = message.text
