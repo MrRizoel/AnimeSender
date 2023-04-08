@@ -59,33 +59,33 @@ async def setanime(RiZoeL: Client, message: Message):
          try:
             try:
                anime = await RiZoeL.get_messages(UPLOAD_CHANNEL, msg_id)
-               if not anime:
-                  await message.reply("Invalid message ID!")
-                  return
             except Exception as er:
                await message.reply(str(er))
                return
          except ChatAdminRequired:
             await message.reply("I'm not admin in {}!").format(UPLOAD_CHANNEL)
             return
-         multiple = int(int(msg_id) * 1517994352)
-         message_string = await encode(f"anime-{multiple}")
-         anime_caption = blue_print.format(anime_name, get_time(anime.video.duration), get_file_size(anime.video.file_size))
-         buttons = [[(InlineKeyboardButton("Watch Now 🎬", url=f"https://t.me/{BOT_USERNAME}?start={message_string}"))]]
-         x = await RiZoeL.send_photo(
+         if anime:
+            multiple = int(int(anime.id) * 1517994352)
+            message_string = await encode(f"anime-{multiple}")
+            anime_caption = blue_print.format(anime_name, get_time(anime.video.duration), get_file_size(anime.video.file_size))
+            buttons = [[(InlineKeyboardButton("Watch Now 🎬", url=f"https://t.me/{BOT_USERNAME}?start={message_string}"))]]
+            x = await RiZoeL.send_photo(
                       CHANNEL,
                       replied.photo.file_id,
                       caption=anime_caption,
                       reply_markup=InlineKeyboardMarkup(buttons),
                       )
-         await message.reply(f"Your Anime uploaded! [Click here](https://t.me/{CHANNEL}/{x.id})", disable_web_page_preview=True)
-         data = users.get_all_users()
-         for db in data:
-            try:
-               await RiZoeL.send_message(db.user_id, text=f"**New Anime uploaded! [Click here.](https://t.me/{CHANNEL}/{x.id})**", disable_web_page_preview=True)
-               await asyncio.sleep(1)
-            except Exception as a:
-               print(a)
+            await message.reply(f"Your Anime uploaded! [Click here](https://t.me/{CHANNEL}/{x.id})", disable_web_page_preview=True)
+            data = users.get_all_users()
+            for db in data:
+               try:
+                  await RiZoeL.send_message(db.user_id, text=f"**New Anime uploaded! [Click here.](https://t.me/{CHANNEL}/{x.id})**", disable_web_page_preview=True)
+                  await asyncio.sleep(1)
+               except Exception as a:
+                  print(a)
+         else:
+            await message.reply("Invalid message ID!")
       else:
          await message.reply("Wrong Usage!")
    else:
@@ -98,18 +98,18 @@ async def createanime(RiZoeL: Client, message: Message):
       msg_id = int(args[0])
       try:
          try:
-            anime = await RiZoeL.get_messages(UPLOAD_CHANNEL, msg_id)
-            if not anime:
-               await message.reply("Invalid message ID!")
-               return 
+            anime = await RiZoeL.get_messages(UPLOAD_CHANNEL, msg_id) 
          except Exception as er:
             await message.reply(str(er))
             return
       except ChatAdminRequired:
          await message.reply("I'm not admin in {}!").format(UPLOAD_CHANNEL)
          return
-      multiple = int(int(msg_id) * 1517994352)
-      message_string = await encode(f"anime-{multiple}")
-      await message.reply(f"**Message link Here----> \n\n**Hash:**`{message_string}` \n**Link**: `https://t.me/{BOT_USERNAME}?start={message_string}`")
+      if anime:
+         multiple = int(int(anime.id) * 1517994352)
+         message_string = await encode(f"anime-{multiple}")
+         await message.reply(f"**Message link Here----> \n\n**Hash:**`{message_string}` \n**Link**: `https://t.me/{BOT_USERNAME}?start={message_string}`")
+      else:
+         await message.reply("Invalid message ID!")
    else:
       await message.replg("Gime message id to create link")
