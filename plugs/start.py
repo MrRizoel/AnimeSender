@@ -40,6 +40,40 @@ async def check_sub(RiZoeL, update):
     else:
         return True
 
+async def join_message(RiZoeL: Client, message: Message):
+    if len(message.text)>7:
+      buttons = [
+                [
+                 InlineKeyboardButton("Anime Twilight ✨", url=f"https://t.me/{CHANNEL}")
+                ], [
+                 InlineKeyboardButton("- Try Again -",url = f"https://t.me/{BOT_USERNAME}?start={message.command[1]}")
+                ], ]
+    else:
+      buttons = CHANNEL_BUTTON
+
+    await message.reply(
+        f"You must join [this channel](https://t.me/{CHANNEL}) to use me. After joining try again !",
+        reply_markup=InlineKeyboardMarkup(buttons),
+        quote=True,
+        disable_web_page_preview=True
+    )
+
+@Client.on_message(filters.incoming & filters.private, group=-1)
+async def must_join_channels(RiZoeL: Client, msg: Message):   
+async def is_subscribed(RiZoeL, update):
+    if not CHANNEL:
+        return
+    if not await check_sub(RiZoeL, message)
+      await join_message(RiZoeL, message)
+      await message.reply(
+        f"You must join [this channel](https://t.me/{CHANNEL}) to use me. After joining try again !",
+        reply_markup=InlineKeyboardMarkup(CHANNEL_BUTTON),
+        quote=True,
+        disable_web_page_preview=True
+      )
+       
+
+
 @Client.on_message(filters.private & filters.command("start"))
 async def start(RiZoeL: Client, message: Message):
    chat = message.chat
@@ -86,20 +120,3 @@ async def start(RiZoeL: Client, message: Message):
 
    print(f"Started by {user.first_name}!")
 
-async def join_message(RiZoeL: Client, message: Message):
-    if len(message.text)>7:
-      buttons = [
-                [
-                 InlineKeyboardButton("Anime Twilight ✨", url=f"https://t.me/{CHANNEL}")
-                ], [
-                 InlineKeyboardButton("- Try Again -",url = f"https://t.me/{BOT_USERNAME}?start={message.command[1]}")
-                ], ]
-    else:
-      buttons = CHANNEL_BUTTON
-
-    await message.reply(
-        f"You must join [this channel](https://t.me/{CHANNEL}) to use me. After joining try again !",
-        reply_markup=InlineKeyboardMarkup(buttons),
-        quote=True,
-        disable_web_page_preview=True
-    )
